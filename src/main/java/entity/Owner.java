@@ -4,32 +4,58 @@ import java.util.List;
 
 public class Owner {
     private long id;
-    private String name;
-    private String contact;
-    private List<Dog> ownedDogs;  // collection of dogs
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String kennel;
 
-    public Owner(long id, String name, String contact, List<Dog> ownedDogs) {
+    public Owner(long id, String firstName, String lastName, String email , String kennel) {
         this.id = id;
-        this.name = name;
-        this.contact = contact;
-        this.ownedDogs = ownedDogs;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.kennel = kennel;
     }
 
     public Owner () {}
 
-    public long getId() {return id;}
+    public long getId() {
+        return id;
+    }
 
-    public void setId(long id) {this.id = id;}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public String getName() {return name;}
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public void setName(String name) {this.name = name;}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getContact() {return contact;}
+    public String getLastName() {
+        return lastName;
+    }
 
-    public void setContact(String contact) {this.contact = contact;}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public List<Dog> getOwnedDogs() {return ownedDogs;}
+    public String getEmail() {
+        return email;
+    }
 
-    public void setOwnedDogs(List<Dog> ownedDogs) {this.ownedDogs = ownedDogs;}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getKennel() {
+        return kennel;
+    }
+
+    public void setKennel(String kennel) {
+        this.kennel = kennel;
+    }
 }

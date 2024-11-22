@@ -5,6 +5,7 @@ import entity.Dog;
 import entity.Owner;
 import entity.Pedigree;
 import exception.DogAlreadyExistsException;
+import exception.OwnerAlreadyExistsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +30,19 @@ public class DogServiceImplClass implements DogService{
         if (dogExists.isPresent())
             throw new DogAlreadyExistsException("Dog with the registration number: "  + registrationNumber + " already exists");
         listOfDogs.add(dog);
+    }
+
+    /**
+     * @param owner - Owner Object
+     */
+    @Override
+    public void createOwner(Owner owner) throws OwnerAlreadyExistsException{
+        String userEmail = owner.getEmail();
+        List<Owner> ownerDb = dogDatabase.getOwners();
+        Optional<Owner> ownerExists = ownerDb.stream()
+                .filter(user -> user.getEmail().equals(userEmail)).findFirst();
+        if (ownerExists.isPresent())
+            throw new OwnerAlreadyExistsException("Owner with the email: " + owner.getEmail() + " already exists");
+        ownerDb.add(owner);
     }
 }

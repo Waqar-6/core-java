@@ -1,6 +1,7 @@
 import entity.Dog;
 import entity.Owner;
 import exception.DogAlreadyExistsException;
+import exception.OwnerAlreadyExistsException;
 import service.DogService;
 import service.DogServiceImplClass;
 
@@ -24,6 +25,7 @@ public class Main {
 
             switch (selectedOption) {
                 case 1 -> createDog(scanner, dogService);
+                case 2 -> createOwner(scanner, dogService);
             }
         }
 
@@ -54,6 +56,27 @@ public class Main {
             dogService.createDog(newDog);
             System.out.println("Dog created successfully");
         } catch (DogAlreadyExistsException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    static void createOwner (Scanner scanner, DogService dogService) {
+        try {
+            System.out.println("Enter an id : ");
+            long id = scanner.nextLong();
+            System.out.println("Enter first name: ");
+            String firstName = scanner.next();
+            System.out.println("Enter lastName: ");
+            String lastName = scanner.next();
+            System.out.println("Enter email: ");
+            String email = scanner.next();
+            System.out.println("Enter Kennel name: ");
+            String kennel = scanner.next();
+            Owner owner = new Owner(id, firstName, lastName, email, kennel);
+            dogService.createOwner(owner);
+            System.out.println("Owner created successfully");
+        }catch (OwnerAlreadyExistsException e) {
             System.out.println(e.getMessage());
         }
 
