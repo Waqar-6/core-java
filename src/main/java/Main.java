@@ -1,7 +1,9 @@
 import entity.Dog;
 import entity.Owner;
+import entity.Pedigree;
 import exception.DogAlreadyExistsException;
 import exception.OwnerAlreadyExistsException;
+import exception.ResourceNotFoundException;
 import service.DogService;
 import service.DogServiceImplClass;
 
@@ -26,6 +28,7 @@ public class Main {
             switch (selectedOption) {
                 case 1 -> createDog(scanner, dogService);
                 case 2 -> createOwner(scanner, dogService);
+                case 3 -> createPedigree(scanner, dogService);
             }
         }
 
@@ -77,6 +80,22 @@ public class Main {
             dogService.createOwner(owner);
             System.out.println("Owner created successfully");
         }catch (OwnerAlreadyExistsException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    static void createPedigree (Scanner scanner, DogService dogService) {
+        try {
+            System.out.println("Enter the dogs id : ");
+            Long dogId = scanner.nextLong();
+            System.out.println("Enter the dogs Farther id : ");
+            Long dogFartherId = scanner.nextLong();
+            System.out.println("Enter the dogs Mother id :  ");
+            Long dogMotherId = scanner.nextLong();
+            Pedigree pedigree = new Pedigree(dogId, dogFartherId, dogMotherId);
+            dogService.createPedigree(pedigree);
+        } catch (ResourceNotFoundException e) {
             System.out.println(e.getMessage());
         }
 

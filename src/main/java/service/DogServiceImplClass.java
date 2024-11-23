@@ -6,6 +6,7 @@ import entity.Owner;
 import entity.Pedigree;
 import exception.DogAlreadyExistsException;
 import exception.OwnerAlreadyExistsException;
+import exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +45,27 @@ public class DogServiceImplClass implements DogService{
         if (ownerExists.isPresent())
             throw new OwnerAlreadyExistsException("Owner with the email: " + owner.getEmail() + " already exists");
         ownerDb.add(owner);
+    }
+
+    /**
+     * @param pedigree - Pedigree Object
+     */
+    @Override
+    public void createPedigree(Pedigree pedigree) throws ResourceNotFoundException{
+        List<Dog> dogDb = dogDatabase.getDogs();
+        Dog mainDog = dogDb.stream()
+                .filter(dog -> dog.getId() == pedigree.getDogId()).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Dog", "id", pedigree.getDogId().toString()));
+
+        Dog fartherDog = dogDb.stream()
+                .filter(dog -> dog.getId() == pedigree.getFatherId()).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Dog", "fartherId", pedigree.getFatherId().toString()));
+
+        Dog motherDog = dogDb.stream()
+                .filter(dog -> dog.getId() == pedigree.getMotherId()).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Dog", "fartherId", pedigree.getMotherId().toString()));
+
+        List<Pedigree> pedigreeDb = dogDatabase.getPedigrees();
+        pedigreeDb.add(pedigree);
     }
 }
