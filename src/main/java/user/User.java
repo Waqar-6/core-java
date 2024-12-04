@@ -1,29 +1,25 @@
-package entity;
+package user;
 
-import java.util.List;
-
-public class Owner {
-    private long id;
+public class User {
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
-    private String kennel;
+    private String password;
 
-    public Owner(long id, String firstName, String lastName, String email , String kennel) {
+    public User(Long id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.kennel = kennel;
+        this.password = password;
     }
 
-    public Owner () {}
+    public User () {}
 
-    public long getId() {
-        return id;
-    }
+    public Long getId() {return id;}
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,11 +47,11 @@ public class Owner {
         this.email = email;
     }
 
-    public String getKennel() {
-        return kennel;
+    public String getPassword() {
+        return password;
     }
 
-    public void setKennel(String kennel) {
-        this.kennel = kennel;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

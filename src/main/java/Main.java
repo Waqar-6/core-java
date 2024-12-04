@@ -1,12 +1,8 @@
-import entity.Dog;
-import entity.Owner;
-import entity.Pedigree;
-import exception.DogAlreadyExistsException;
-import exception.OwnerAlreadyExistsException;
-import exception.ResourceNotFoundException;
-import service.DogService;
-import service.DogServiceImplClass;
 
+
+import user.AuthToken;
+import user.User;
+import user.UserController;
 import java.util.Scanner;
 
 public class Main {
@@ -14,7 +10,7 @@ public class Main {
 
 
         Scanner scanner = new Scanner(System.in);
-        DogService dogService = new DogServiceImplClass();
+        UserController userController = new UserController();
 
 
         int selectedOption;
@@ -26,9 +22,8 @@ public class Main {
             if (selectedOption == 4) isActive = false;
 
             switch (selectedOption) {
-                case 1 -> createDog(scanner, dogService);
-                case 2 -> createOwner(scanner, dogService);
-                case 3 -> createPedigree(scanner, dogService);
+                case 1 -> System.out.println(userController.createUser(userObject(scanner)));
+                case 2 -> System.out.println(userController.logUserIn(emailPasswordToken(scanner)));
             }
         }
 
@@ -37,68 +32,36 @@ public class Main {
 
 
     static void displayMenuOption () {
-        String[] options = {"1. Add New Dog ", "2. Add New Owner ", "3. Display All Dogs ", "4. Exit"};
+        String[] options = {"1. Register ", "2. Login "};
         for (String option : options) {System.out.println(option);}
     }
 
-    static void createDog (Scanner scanner, DogService dogService) {
-        try {
-            System.out.println("Enter an id : ");
-            long id = scanner.nextLong();
-            System.out.println("Enter the dogs name : ");
-            String name = scanner.next();
-            System.out.println("Enter the breed of the dog : ");
-            String breed = scanner.next();
-            System.out.println("Enter the date of birth of the dog : ");
-            String dob = scanner.next();
-            System.out.println("Enter the registration number : ");
-            String registrationNumber = scanner.next();
-            System.out.println("Enter the gender of the dog : ");
-            String gender = scanner.next();
-            Dog newDog = new Dog(id, name, breed, dob, registrationNumber, gender);
-            dogService.createDog(newDog);
-            System.out.println("Dog created successfully");
-        } catch (DogAlreadyExistsException e) {
-            System.out.println(e.getMessage());
-        }
-
+    static void displayLoggedInMenu () {
+        String[] options = {"1. see your dogs", "2. create a dog", "3. logout"};
+        for(String option : options) System.out.println(option);
     }
 
-    static void createOwner (Scanner scanner, DogService dogService) {
-        try {
-            System.out.println("Enter an id : ");
-            long id = scanner.nextLong();
-            System.out.println("Enter first name: ");
-            String firstName = scanner.next();
-            System.out.println("Enter lastName: ");
-            String lastName = scanner.next();
-            System.out.println("Enter email: ");
-            String email = scanner.next();
-            System.out.println("Enter Kennel name: ");
-            String kennel = scanner.next();
-            Owner owner = new Owner(id, firstName, lastName, email, kennel);
-            dogService.createOwner(owner);
-            System.out.println("Owner created successfully");
-        }catch (OwnerAlreadyExistsException e) {
-            System.out.println(e.getMessage());
-        }
 
+    static User userObject (Scanner scanner) {
+        System.out.println("Enter id: ");
+        long id = scanner.nextLong();
+        System.out.println("Enter first name: ");
+        String firstName = scanner.next();
+        System.out.println("Enter last name: ");
+        String lastName = scanner.next();
+        System.out.println("Enter email: ");
+        String email = scanner.next();
+        System.out.println("Enter password");
+        String password = scanner.next();
+        return new User(id, firstName, lastName, email, password);
     }
 
-    static void createPedigree (Scanner scanner, DogService dogService) {
-        try {
-            System.out.println("Enter the dogs id : ");
-            Long dogId = scanner.nextLong();
-            System.out.println("Enter the dogs Farther id : ");
-            Long dogFartherId = scanner.nextLong();
-            System.out.println("Enter the dogs Mother id :  ");
-            Long dogMotherId = scanner.nextLong();
-            Pedigree pedigree = new Pedigree(dogId, dogFartherId, dogMotherId);
-            dogService.createPedigree(pedigree);
-        } catch (ResourceNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
+    static AuthToken emailPasswordToken (Scanner scanner) {
+        System.out.println("Enter your email: ");
+        String email = scanner.next();
+        System.out.println("Enter your password: ");
+        String password = scanner.next();
+        return new AuthToken(email, password);
     }
 
 }
