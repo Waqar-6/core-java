@@ -11,6 +11,8 @@ public class AuthToken {
         this.isAuthenticated = false;
     }
 
+    public AuthToken () {}
+
     public String getEmail() {
         return email;
     }

@@ -15,5 +15,11 @@ public interface IUserService {
      */
     boolean loginUser (AuthToken authToken);
 
+    /**
+     *
+     * @return - True or False based on logout
+     */
+    boolean logOut ();
+
 
 }

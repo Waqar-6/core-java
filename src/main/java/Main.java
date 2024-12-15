@@ -1,5 +1,6 @@
 
 
+import security.SecurityContext;
 import user.AuthToken;
 import user.User;
 import user.UserController;
@@ -8,23 +9,37 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-
+        User currentUser = SecurityContext.getCurrentUser();
+        boolean isLoggedIn = SecurityContext.isLoggedIn();
         Scanner scanner = new Scanner(System.in);
         UserController userController = new UserController();
 
 
         int selectedOption;
-        boolean isActive = true;
 
-        while (isActive) {
+        while (!SecurityContext.isLoggedIn()) {
             displayMenuOption();
             selectedOption = scanner.nextInt();
-            if (selectedOption == 4) isActive = false;
 
-            switch (selectedOption) {
-                case 1 -> System.out.println(userController.createUser(userObject(scanner)));
-                case 2 -> System.out.println(userController.logUserIn(emailPasswordToken(scanner)));
+
+            if(!isLoggedIn) {
+                switch (selectedOption) {
+                    case 1 -> System.out.println(userController.createUser(userObject(scanner)));
+                    case 2 -> System.out.println(userController.logUserIn(emailPasswordToken(scanner)));
+                }
             }
+
+            if (SecurityContext.isLoggedIn()) {
+                displayLoggedInMenu();
+
+                while (SecurityContext.isLoggedIn()) {
+                    selectedOption = scanner.nextInt();
+                    switch (selectedOption) {
+                        case 3 -> System.out.println(userController.logUserOut());
+                    }
+                }
+            }
+
         }
 
         System.out.println("Thank you ");

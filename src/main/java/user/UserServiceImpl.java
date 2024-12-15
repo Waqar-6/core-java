@@ -3,6 +3,7 @@ package user;
 import doa.DogDatabase;
 import exception.AlreadyExistsException;
 import exception.ResourceNotFoundException;
+import security.SecurityContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,15 @@ public class UserServiceImpl implements IUserService{
         if (user.getPassword().equals(password)) {
             authToken.setAuthenticated(true);
         }
+        SecurityContext.setCurrentUser(user);
+
         return authToken.isAuthenticated();
+    }
+
+    @Override
+    public boolean logOut() {
+        SecurityContext.setCurrentUser(null);
+        return true;
     }
 
 
